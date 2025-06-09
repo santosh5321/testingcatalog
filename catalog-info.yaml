@@ -1,13 +1,12 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  title: Backstage
-  name: backstage
+  name: testingcatalog
   description: Developer Portal
   annotations:
     backstage.io/techdocs-ref: dir:.
     grafana/dashboard-selector: my-service
 spec:
   type: website
-  owner: user:default/rpredd1
+  owner: user:default/santosh5321
   lifecycle: production
