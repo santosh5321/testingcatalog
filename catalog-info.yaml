@@ -5,7 +5,7 @@ metadata:
   description: Developer Portal
   annotations:
     backstage.io/techdocs-ref: dir:.
-    grafana/dashboard-selector: my-service
+    grafana/dashboard-selector: 'beh3fv2knta80a'
 spec:
   type: website
   owner: user:default/santosh5321
