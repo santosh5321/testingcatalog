@@ -6,7 +6,7 @@ metadata:
   annotations:
     grafana/alert-label-selector: "service=awesome-service"
     grafana/dashboard-selector: "000000012"
-    grafana/overview-dashboard: "https://play.grafana.org/d/000000012/grafana-play-home?orgId=1""
+    grafana/overview-dashboard: "https://play.grafana.org/d/000000012/grafana-play-home?orgId=1"
 spec:
   type: website
   owner: user:default/santosh5321
