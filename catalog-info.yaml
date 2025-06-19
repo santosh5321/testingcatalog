@@ -11,3 +11,16 @@ spec:
   type: website
   owner: user:default/santosh5321
   lifecycle: production
+
+---
+ 
+# Second entity (your custom kind)
+apiVersion: backstage.io/v1alpha1
+kind: MCP
+metadata:
+  name: sample-mcp
+  description: My custom MCP kind
+spec:
+  type: internal
+  owner: team-a
+  lifecycle: production
