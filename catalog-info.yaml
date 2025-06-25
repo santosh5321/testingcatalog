@@ -1,26 +1,35 @@
 apiVersion: backstage.io/v1alpha1
-kind: Component
-metadata:
-  name: testingcatalog
-  description: Developer Portal
-  annotations:
-    grafana/alert-label-selector: "service=awesome-service"
-    grafana/dashboard-selector: "beh3fv2knta80a"
-    grafana/overview-dashboard: "https://devopsanalytics-np.int.bayer.com/grafana/d/beh3fv2knta80a/dora?orgId=1"
-spec:
-  type: website
-  owner: user:default/santosh5321
-  lifecycle: production
-
----
- 
-# Second entity (your custom kind)
-apiVersion: backstage.io/v1alpha1
 kind: MCP
 metadata:
-  name: sample-mcp
-  description: My custom MCP kind
+  name: mcp-server-github
+  description: MCP server that provides GitHub context to LLMs
+  tags:
+    - mcp
+    - llm
+    - github
+    - context-provider
 spec:
   type: internal
-  owner: team-a
+  owner: team-llm-infra
   lifecycle: production
+  system: ai-context-platform
+  environment: dev
+  version: 0.9.1
+  endpoint: http://localhost:8080/mcp/github
+  repository: https://github.com/bayer-int/mcp-servers
+  documentation: https://github.com/bayer-int/mcp-servers/blob/main/docs/github.md
+  capabilities:
+    - fetch-pull-requests
+    - summarize-issues
+    - list-repositories
+  clients:
+    - Claude Desktop
+    - Q Developer
+    - Cursor
+  dataSources:
+    - GitHub API
+    - Internal GitHub Enterprise
+  maintainers:
+    - name: Jane Doe
+      email: jane.doe@example.com
+  lastUpdated: 2025-06-25
