@@ -20,7 +20,7 @@ metadata:
   namespace: default
   description: Platform for AI context services
 spec:
-  owner: group:default/devops-team
+  owner: guest
   
 ---
 
@@ -36,7 +36,7 @@ metadata:
     - context-provider
 spec:
   type: internal
-  owner: group:default/devops-team
+  owner: guest
   lifecycle: production
   system: ai-context-platform
   environment: dev
