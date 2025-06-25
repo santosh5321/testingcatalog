@@ -10,17 +10,19 @@ spec:
     displayName: DevOps Team
     email: devops@example.com
   children: []
+
 ---
+
 apiVersion: backstage.io/v1alpha1
 kind: MCP
 metadata:
   name: mcp-server-github
   description: MCP server that provides GitHub context to LLMs
   tags:
-  - mcp
-  - llm
-  - github
-  - context-provider
+    - mcp
+    - llm
+    - github
+    - context-provider
 spec:
   type: internal
   owner: group:default/devops-team
@@ -32,17 +34,17 @@ spec:
   repository: https://github.com/bayer-int/mcp-servers
   documentation: https://github.com/bayer-int/mcp-servers/blob/main/docs/github.md
   capabilities:
-  - fetch-pull-requests
-  - summarize-issues
-  - list-repositories
+    - fetch-pull-requests
+    - summarize-issues
+    - list-repositories
   clients:
-  - Claude Desktop
-  - Q Developer
-  - Cursor
+    - Claude Desktop
+    - Q Developer
+    - Cursor
   dataSources:
-  - GitHub API
-  - Internal GitHub Enterprise
+    - GitHub API
+    - Internal GitHub Enterprise
   maintainers:
-  - name: Jane Doe
-    email: jane.doe@example.com
-  lastUpdated: '2025-06-25'
+    - name: Jane Doe
+      email: jane.doe@example.com
+  lastUpdated: 2025-06-25
