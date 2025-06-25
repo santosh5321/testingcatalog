@@ -1,4 +1,30 @@
 apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: devops-team
+  namespace: default
+  description: DevOps Team responsible for MCP servers
+spec:
+  type: team
+  profile:
+    displayName: DevOps Team
+    email: devops@example.com
+  children: []
+
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: ai-context-platform
+  namespace: default
+  description: Platform for AI context services
+spec:
+  owner: group:default/devops-team
+  
+---
+
+apiVersion: backstage.io/v1alpha1
 kind: MCP
 metadata:
   name: mcp-server-github
@@ -10,7 +36,7 @@ metadata:
     - context-provider
 spec:
   type: internal
-  owner: Krishna
+  owner: group:default/devops-team
   lifecycle: production
   system: ai-context-platform
   environment: dev
