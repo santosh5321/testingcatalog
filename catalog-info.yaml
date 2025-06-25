@@ -10,7 +10,7 @@ metadata:
     - context-provider
 spec:
   type: internal
-  owner: team-llm-infra
+  owner: user:default/santosh
   lifecycle: production
   system: ai-context-platform
   environment: dev
