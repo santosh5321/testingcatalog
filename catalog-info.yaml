@@ -1,4 +1,19 @@
 apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: devops-team
+  namespace: default
+  description: DevOps Team responsible for MCP servers
+spec:
+  type: team
+  profile:
+    displayName: DevOps Team
+    email: devops@example.com
+  children: []
+  
+---
+
+apiVersion: backstage.io/v1alpha1
 kind: MCP
 metadata:
   name: mcp-server-github
