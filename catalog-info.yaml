@@ -10,7 +10,7 @@ metadata:
     - context-provider
 spec:
   type: internal
-  owner: user:default/santosh
+  owner: group:default/devops-team
   lifecycle: production
   system: ai-context-platform
   environment: dev
