@@ -78,6 +78,3 @@ spec:
   consumesApis: []
   dependsOn:
     - MCP:default/mcp-server-github
-relations:
-  - type: dependsOn
-    targetRef: MCP:default/mcp-server-github
