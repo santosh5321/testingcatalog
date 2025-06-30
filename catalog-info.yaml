@@ -21,7 +21,7 @@ metadata:
   description: Platform for AI context services
 spec:
   owner: guest
-  
+
 ---
 
 apiVersion: backstage.io/v1alpha1
@@ -58,4 +58,4 @@ spec:
   maintainers:
     - name: Jane Doe
       email: jane.doe@example.com
-  lastUpdated: 2025-06-25
+  lastUpdated: 2025-06-25T12:00:00Z
