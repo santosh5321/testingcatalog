@@ -59,7 +59,7 @@ spec:
   maintainers:
     - name: Jane Doe
       email: jane.doe@example.com
-  lastUpdated: 2025-06-25T12:00:00Z
+  lastUpdated: 2025-06-30T13:32:14Z
 
 ---
 
@@ -78,10 +78,6 @@ spec:
   consumesApis: []
   dependsOn:
     - MCP:default/mcp-server-github
-  # Optionally, use 'relations' for explicit MCP link:
 relations:
   - type: dependsOn
-    target:
-      kind: MCP
-      namespace: default
-      name: mcp-server-github
+    targetRef: MCP:default/mcp-server-github
