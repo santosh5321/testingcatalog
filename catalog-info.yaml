@@ -20,7 +20,7 @@ metadata:
   namespace: default
   description: Platform for AI context services
 spec:
-  owner: guest
+  owner: devops-team
 
 ---
 
@@ -28,6 +28,7 @@ apiVersion: backstage.io/v1alpha1
 kind: MCP
 metadata:
   name: mcp-server-github
+  namespace: default
   description: MCP server that provides GitHub context to LLMs
   tags:
     - mcp
@@ -36,7 +37,7 @@ metadata:
     - context-provider
 spec:
   type: internal
-  owner: guest
+  owner: devops-team
   lifecycle: production
   system: ai-context-platform
   environment: dev
@@ -59,3 +60,28 @@ spec:
     - name: Jane Doe
       email: jane.doe@example.com
   lastUpdated: 2025-06-25T12:00:00Z
+
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: sample-mcp-client-service
+  namespace: default
+  description: Service consuming MCP GitHub context provider
+spec:
+  type: service
+  lifecycle: production
+  owner: devops-team
+  system: ai-context-platform
+  providesApis: []
+  consumesApis: []
+  dependsOn:
+    - MCP:default/mcp-server-github
+  # Optionally, use 'relations' for explicit MCP link:
+relations:
+  - type: dependsOn
+    target:
+      kind: MCP
+      namespace: default
+      name: mcp-server-github
