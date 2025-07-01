@@ -1,80 +1,13 @@
 apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: devops-team
-  namespace: default
-  description: DevOps Team responsible for MCP servers
-spec:
-  type: team
-  profile:
-    displayName: DevOps Team
-    email: devops@example.com
-  children: []
-
----
-
-apiVersion: backstage.io/v1alpha1
-kind: System
-metadata:
-  name: ai-context-platform
-  namespace: default
-  description: Platform for AI context services
-spec:
-  owner: devops-team
-
----
-
-apiVersion: backstage.io/v1alpha1
 kind: MCP
 metadata:
-  name: mcp-server-github
-  namespace: default
-  description: MCP server that provides GitHub context to LLMs
-  tags:
-    - mcp
-    - llm
-    - github
-    - context-provider
+  name: my-mcp-service
+  description: Example MCP SQL Service
+  annotations:
+    backstage.io/techdocs-ref: dir:.
 spec:
-  type: internal
-  owner: devops-team
-  lifecycle: production
-  system: ai-context-platform
-  environment: dev
-  version: 0.9.1
-  endpoint: http://localhost:8080/mcp/github
-  repository: https://github.com/bayer-int/mcp-servers
-  documentation: https://github.com/bayer-int/mcp-servers/blob/main/docs/github.md
-  capabilities:
-    - fetch-pull-requests
-    - summarize-issues
-    - list-repositories
-  clients:
-    - Claude Desktop
-    - Q Developer
-    - Cursor
-  dataSources:
-    - GitHub API
-    - Internal GitHub Enterprise
-  maintainers:
-    - name: Jane Doe
-      email: jane.doe@example.com
-  lastUpdated: 2025-06-30T13:32:14Z
-
----
-
-apiVersion: backstage.io/v1alpha1
-kind: Component
-metadata:
-  name: sample-mcp-client-service
-  namespace: default
-  description: Service consuming MCP GitHub context provider
-spec:
-  type: service
-  lifecycle: production
-  owner: devops-team
-  system: ai-context-platform
-  providesApis: []
-  consumesApis: []
-  dependsOn:
-    - MCP:default/mcp-server-github
+  type: mcp-service
+  owner: user:default/your-username
+  system: my-system
+  mcpEndpoint: https://mcp.example.com/execute_sql
+  # Add any other fields needed for your MCP service
