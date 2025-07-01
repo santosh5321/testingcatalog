@@ -7,7 +7,7 @@ metadata:
     backstage.io/techdocs-ref: dir:.
 spec:
   type: mcp-service
-  owner: user:default/your-username
+  owner: santosh
   system: my-system
   mcpEndpoint: https://mcp.example.com/execute_sql
   # Add any other fields needed for your MCP service
