@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: MCP
 metadata:
-  name: my-mcp-service
+  name: my-mcp-santosh
   description: Example MCP SQL Service
   annotations:
     backstage.io/techdocs-ref: dir:.
