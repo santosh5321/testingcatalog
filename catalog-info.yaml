@@ -1,13 +1,10 @@
 apiVersion: backstage.io/v1alpha1
-kind: MCP
+kind: Component
 metadata:
-  name: my-mcp-santosh
-  description: Example MCP SQL Service
+  name: grafana-testing-entity
   annotations:
-    backstage.io/techdocs-ref: dir:.
+    grafana/dashboard-selector: "KGkUnV-Vz"
+    grafana/overview-dashboard: "https://devopsanalytics-np.int.bayer.com/grafana/d/KGkUnV-Vz/dora-validation?orgId=1"
 spec:
-  type: mcp-service
+  type: website
   owner: santosh
-  system: my-system
-  mcpEndpoint: https://mcp.example.com/execute_sql
-  # Add any other fields needed for your MCP service
