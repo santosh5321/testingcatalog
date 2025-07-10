@@ -1,11 +1,10 @@
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: MCP
 metadata:
-  name: grafana-testing-entity
-  annotations:
-    grafana/dashboard-selector: "KGkUnV-Vz"
-    grafana/overview-dashboard: "https://devopsanalytics-np.int.bayer.com/grafana/d/KGkUnV-Vz/dora-validation?orgId=1"
+  name: my-mcp
+  description: My MCP service
 spec:
-  type: website
-  owner: santosh
+  type: service
   lifecycle: production
+  owner: team-a
+  system: my-system
