@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: MCP
+metadata:
+  name: ${{ parameters.name }}
+  description: Example MCP SQL Service
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+spec:
+  type: mcp-service
+  owner: ${{ parameters.owner }}
+  system: ${{ parameters.system }}
