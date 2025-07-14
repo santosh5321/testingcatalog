@@ -1,10 +1,33 @@
-apiVersion: backstage.io/v1alpha1
-kind: MCP
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
 metadata:
-  name: my-mcp
-  description: My MCP service
+  name: test-template
+  title: Test Template
+  description: A test template for scaffolding
 spec:
-  type: service
-  lifecycle: production
   owner: team-a
-  system: my-system
+  type: service
+  parameters:
+    - title: Service Info
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          title: Service Name
+  steps:
+    - id: fetch-base
+      name: Fetch Base
+      action: fetch:template
+      input:
+        url: ./template
+    - id: register
+      name: Register Component
+      action: catalog:register
+      input:
+        repoContentsUrl: '{{ steps["fetch-base"].output.repoContentsUrl }}'
+        catalogInfoPath: '/catalog-info.yaml'
+  output:
+    links:
+      - title: Open in catalog
+        url: '{{ steps["register"].output.entityRef | parseEntityRef | entityUrl }}'
