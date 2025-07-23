@@ -41,11 +41,10 @@ spec:
 
     - id: register
       name: Register MCP
-      action: catalog:registerLocation
+      action: catalog:register
       input:
-        location:
-          type: url
-          target: https://github.com/santosh5321/testingcatalog/blob/main/test-template/skeleton/catalog-info.yaml
+        repoContentsUrl: https://github.com/santosh5321/testingcatalog
+        catalogInfoPath: '/test-template/skeleton/catalog-info.yaml'
 
   output:
     links:
