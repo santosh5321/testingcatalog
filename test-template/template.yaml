@@ -1,52 +1,103 @@
 apiVersion: scaffolder.backstage.io/v1beta3
+
 kind: Template
+
 metadata:
+
   name: mcp-template
+
   title: Create MCP Component
+
   description: Scaffold a new MCP component
+
   tags:
+
     - mcp
+
     - service
+
 spec:
+
   owner: user:default/someone
+
   type: service
 
+
+
   parameters:
+
     - title: MCP Component Configuration
+
       required:
+
         - name
+
         - owner
+
         - system
+
       properties:
+
         name:
+
           type: string
+
           title: Component Name
+
         owner:
+
           type: string
+
           title: Owner
+
         system:
+
           type: string
+
           title: System
 
+
+
   steps:
+
     - id: fetch-base
+
       name: Fetch Base
+
       action: fetch:template
+
       input:
+
         url: https://github.com/santosh5321/testingcatalog/tree/main/test-template/skeleton
+
         values:
+
           name: ${{ parameters.name }}
+
           owner: ${{ parameters.owner }}
+
           system: ${{ parameters.system }}
 
+
+
     - id: register
+
       name: Register MCP
+
       action: catalog:register
+
       input:
-        repoContentsUrl: https://github.com/santosh5321/testingcatalog
-        catalogInfoPath: '/test-template/skeleton/catalog-info.yaml'
+
+        repoContentsUrl: https://github.com/santosh5321/testingcatalog/tree/main/test-template/skeleton
+
+        catalogInfoPath: '/catalog-info.yaml'
+
+
 
   output:
+
     links:
+
       - title: Open in catalog
-        url: 'catalog/MCP/default/${{ parameters.name }}'
+
+        url: '{{ steps["register"].output.entityRef | parseEntityRef | entityUrl }}'
