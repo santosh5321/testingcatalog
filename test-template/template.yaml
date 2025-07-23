@@ -49,4 +49,4 @@ spec:
   output:
     links:
       - title: Open in catalog
-        url: 'catalog/MCP/default/${{ parameters.name }}'
+        url: '{{ steps["register"].output.entityRef | parseEntityRef | entityUrl }}'
