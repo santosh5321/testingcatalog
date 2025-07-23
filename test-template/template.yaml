@@ -10,6 +10,7 @@ metadata:
 spec:
   owner: user:default/someone
   type: service
+
   parameters:
     - title: MCP Component Configuration
       required:
@@ -26,18 +27,25 @@ spec:
         system:
           type: string
           title: System
+
   steps:
     - id: fetch-base
       name: Fetch Base
       action: fetch:template
       input:
-        url: ./skeleton
+        url: https://github.com/santosh5321/testingcatalog/tree/main/test-template/skeleton
+        values:
+          name: ${{ parameters.name }}
+          owner: ${{ parameters.owner }}
+          system: ${{ parameters.system }}
+
     - id: register
       name: Register MCP
       action: catalog:register
       input:
-        repoContentsUrl: '{{ steps["fetch-base"].output.repoContentsUrl }}'
+        repoContentsUrl: https://github.com/santosh5321/testingcatalog/tree/main/test-template/skeleton
         catalogInfoPath: '/catalog-info.yaml'
+
   output:
     links:
       - title: Open in catalog
