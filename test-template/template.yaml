@@ -100,4 +100,4 @@ spec:
 
       - title: Open in catalog
 
-        url: '{{ steps["register"].output.entityRef | parseEntityRef | entityUrl }}'
+        url: 'catalog/MCP/default/${{ parameters.name }}'
