@@ -1,0 +1,8 @@
+Hello World!
+
+This file was created using a Backstage template.
+
+Values:
+parameters.projectName -> values.projectName : helloworld
+parameters.description -> values.description : hello  world testing 1234
+(parameters.repoUrl | parseRepoUrl)['repo'] -> values.repoName : testingcatalog
