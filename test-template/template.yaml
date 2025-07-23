@@ -41,12 +41,13 @@ spec:
 
     - id: register
       name: Register MCP
-      action: catalog:register
+      action: catalog:registerLocation
       input:
-        repoContentsUrl: https://github.com/santosh5321/testingcatalog/tree/main/test-template/skeleton
-        catalogInfoPath: '/catalog-info.yaml'
+        location:
+          type: url
+          target: https://github.com/santosh5321/testingcatalog/blob/main/test-template/skeleton/catalog-info.yaml
 
   output:
     links:
       - title: Open in catalog
-        url: '{{ steps["register"].output.entityRef | parseEntityRef | entityUrl }}'
+        url: 'catalog/MCP/default/${{ parameters.name }}'
