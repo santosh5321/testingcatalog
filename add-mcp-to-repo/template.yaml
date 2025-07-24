@@ -1,0 +1,277 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: add-mcp-to-repo
+  title: Add MCP to Existing Repository
+  description: Add Model Context Protocol (MCP) implementation to an existing ML Service repository
+  tags:
+    - mcp
+    - model-context-protocol
+    - integration
+    - ml-service
+spec:
+  owner: default
+  type: service
+  
+  parameters:
+    - title: Repository Information
+      required:
+        - repoUrl
+        - mcpType
+      properties:
+        repoUrl:
+          title: Target Repository URL
+          type: string
+          description: The existing ML Service repository where MCP will be added
+          ui:field: RepoUrlPicker
+          ui:options:
+            requestUserCredentials:
+              secretsKey: USER_OAUTH_TOKEN
+            allowedHosts:
+              - github.com
+        targetPath:
+          title: Target Directory
+          type: string
+          description: Directory within the repository where MCP code will be added
+          default: 'mcp'
+          ui:help: 'Subdirectory to create for MCP implementation (e.g., "mcp", "src/mcp")'
+        mcpType:
+          title: MCP Server Type
+          type: string
+          description: Select the type of MCP server to implement
+          default: postgres
+          ui:field: CustomTagSelect
+          ui:options:
+            catalogName: mcp-catalog
+          enum:
+            - postgres
+            - filesystem
+            - memory
+            - sqlite
+            - git
+            - slack
+            - github
+            - brave-search
+            - fetch
+          enumNames:
+            - PostgreSQL MCP Server
+            - Filesystem MCP Server
+            - Memory MCP Server
+            - SQLite MCP Server
+            - Git MCP Server
+            - Slack MCP Server
+            - GitHub MCP Server
+            - Brave Search MCP Server
+            - Fetch MCP Server
+
+    - title: MCP Configuration
+      required:
+        - serviceName
+        - description
+        - owner
+      properties:
+        serviceName:
+          title: MCP Service Name
+          type: string
+          description: Name for the MCP service implementation
+          pattern: '^[a-z0-9-]+$'
+          ui:help: 'Must be lowercase, alphanumeric, with hyphens only'
+        description:
+          title: Description
+          type: string
+          description: Brief description of what this MCP implementation does
+          ui:widget: textarea
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the MCP implementation (team or user)
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+              - User
+        port:
+          title: Server Port
+          type: integer
+          description: Port number for the MCP server
+          default: 3001
+          minimum: 1000
+          maximum: 65535
+        
+    - title: Database Configuration (for database-backed MCP types)
+      dependencies:
+        mcpType:
+          oneOf:
+            - properties:
+                mcpType:
+                  enum: ["postgres", "sqlite"]
+      properties:
+        databaseUrl:
+          title: Database URL
+          type: string
+          description: Database connection URL (optional - can be configured via environment variables)
+          ui:placeholder: 'postgresql://user:password@localhost:5432/dbname'
+          ui:help: 'Leave empty to use environment variable DATABASE_URL'
+        tableName:
+          title: Table Name
+          type: string
+          description: Primary table name for MCP operations
+          default: 'mcp_data'
+
+    - title: Additional Configuration
+      properties:
+        includeDocker:
+          title: Include Docker Configuration
+          type: boolean
+          description: Add Docker support for the MCP server
+          default: true
+        includeTests:
+          title: Include Test Files
+          type: boolean
+          description: Add basic test files for the MCP implementation
+          default: true
+        environmentVariables:
+          title: Environment Variables
+          type: object
+          description: Additional environment variables for MCP configuration
+          ui:widget: object
+          additionalProperties:
+            type: string
+          ui:help: 'Key-value pairs for environment configuration'
+
+  steps:
+    - id: fetch-mcp-source
+      name: Fetch MCP Server Source Code
+      action: fetch:plain
+      input:
+        url: https://github.com/bayer-int/mcp-servers/tree/main/src/${{ parameters.mcpType }}
+        targetPath: ./mcp-source
+
+    - id: fetch-integration-template
+      name: Fetch Integration Template
+      action: fetch:template
+      input:
+        url: ./skeleton-integration
+        targetPath: ./output
+        values:
+          # Repository info
+          repoName: ${{ (parameters.repoUrl | parseRepoUrl)['repo'] }}
+          orgName: ${{ (parameters.repoUrl | parseRepoUrl)['owner'] }}
+          targetPath: ${{ parameters.targetPath }}
+          
+          # MCP config
+          mcpType: ${{ parameters.mcpType }}
+          serviceName: ${{ parameters.serviceName }}
+          description: ${{ parameters.description }}
+          owner: ${{ parameters.owner }}
+          port: ${{ parameters.port }}
+          
+          # Database config
+          databaseUrl: ${{ parameters.databaseUrl }}
+          tableName: ${{ parameters.tableName }}
+          
+          # Additional options
+          includeDocker: ${{ parameters.includeDocker }}
+          includeTests: ${{ parameters.includeTests }}
+          environmentVariables: ${{ parameters.environmentVariables }}
+          
+          # Repository URL for reference
+          repoUrl: ${{ parameters.repoUrl }}
+          
+    - id: copy-mcp-source
+      name: Copy MCP Server Implementation
+      action: fs:rename
+      input:
+        files:
+          - from: ./mcp-source
+            to: ./output/${{ parameters.targetPath }}/mcp-server
+            
+    - id: create-pr
+      name: Create Pull Request with MCP Integration
+      action: publish:github:pull-request
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        branchName: 'feat/add-mcp-${{ parameters.mcpType }}-${{ parameters.serviceName }}'
+        title: 'feat: Add MCP (${{ parameters.mcpType }}) integration to ${{ parameters.serviceName }}'
+        description: |
+          ## Add Production MCP Integration: ${{ parameters.serviceName }}
+          
+          This PR integrates the production-ready **${{ parameters.mcpType }}** MCP server from [bayer-int/mcp-servers](https://github.com/bayer-int/mcp-servers) with your ML service.
+          
+          **MCP Integration Details:**
+          - **Server Type**: ${{ parameters.mcpType }} MCP Server (FastMCP framework)
+          - **Service Name**: ${{ parameters.serviceName }}
+          - **Description**: ${{ parameters.description }}
+          - **Owner**: ${{ parameters.owner }}
+          {% if parameters.databaseUrl %}- **Database**: ${{ parameters.databaseUrl }}{% endif %}
+          
+          **What Was Added:**
+          
+          ### 🏗️ Production MCP Server
+          - `${{ parameters.targetPath }}/mcp-server/` - Complete MCP server from bayer-int/mcp-servers
+          - AWS Lambda ready with Mangum and stateless HTTP transport
+          - Built-in SQL injection protection and read-only mode
+          - AWS Secrets Manager integration for secure credentials
+          
+          ### 🔌 ML Service Integration Layer
+          - `${{ parameters.targetPath }}/mcp_integration.py` - Production client for FastMCP
+          - `${{ parameters.targetPath }}/mcp_config.yaml` - Configuration management
+          - `${{ parameters.targetPath }}/.env.mcp.example` - Environment template
+          - `${{ parameters.targetPath }}/test_mcp_integration.py` - Comprehensive test suite
+          - `${{ parameters.targetPath }}/requirements.txt` - Python dependencies
+          
+          ### 🚀 Deployment Options
+          {% if parameters.includeDocker %}- Docker support for containerized deployment{% endif %}
+          - AWS Lambda deployment with Terraform (in mcp-server/terraform/)
+          - Local development setup with uv package manager
+          
+          **MCP Server Capabilities:**
+          {% if parameters.mcpType == "postgres" %}
+          - **Resources**: `postgresql://{table}/data` for sample data access
+          - **Tools**: `execute_sql`, `get_tables`, `get_table_schemas`
+          - **Security**: PostgreSQL-specific injection protection, read-only mode
+          {% endif %}
+          {% if parameters.mcpType == "ms-sql" %}
+          - **Resources**: `mssql://{table}/data` for sample data access  
+          - **Tools**: `execute_sql`, `get_tables`, `get_table_schemas`
+          - **Security**: MS SQL-specific injection protection, DP table filtering
+          {% endif %}
+          
+          **Next Steps:**
+          1. **Configure Environment**: Copy `.env.mcp.example` to `.env.mcp` and update
+          2. **Install Dependencies**: `pip install -r ${{ parameters.targetPath }}/requirements.txt`
+          3. **Test Integration**: `python ${{ parameters.targetPath }}/test_mcp_integration.py`
+          4. **Start MCP Server**: `cd ${{ parameters.targetPath }}/mcp-server/src && uv run main.py`
+          5. **Deploy to AWS**: Use Terraform config in `${{ parameters.targetPath }}/mcp-server/terraform/`
+          6. **Integrate with ML Service**: Use `mcp_integration.py` client in your code
+          
+          **Integration Example:**
+          ```python
+          from mcp_integration import MLServiceMCPIntegration
+          
+          # In your ML service
+          mcp = MLServiceMCPIntegration()
+          training_data = mcp.get_training_data()
+          metadata = mcp.get_feature_metadata()
+          ```
+          
+          Generated using the "Add MCP to Repository" template in Backstage.
+          
+          **Documentation:**
+          - [FastMCP Framework](https://pypi.org/project/fastmcp/)
+          - [bayer-int/mcp-servers](https://github.com/bayer-int/mcp-servers)
+          - [ML Service Terraform Module](https://github.com/bayer-int/ph-ds-ml-serverless-api-mcp)
+        targetPath: ${{ parameters.targetPath }}
+        sourcePath: ./output
+        token: ${{ secrets.USER_OAUTH_TOKEN }}
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps['create-pr'].output.remoteUrl }}
+      - title: Pull Request
+        url: ${{ steps['create-pr'].output.pullRequestUrl }}
+      - title: MCP Documentation
+        url: https://modelcontextprotocol.io/
+      - title: Setup Instructions
+        url: ${{ steps['create-pr'].output.remoteUrl }}/blob/${{ steps['create-pr'].output.targetBranchName }}/${{ parameters.targetPath }}/README.md
