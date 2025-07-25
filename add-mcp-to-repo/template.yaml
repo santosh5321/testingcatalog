@@ -125,11 +125,6 @@ spec:
 
     - title: Additional Configuration
       properties:
-        includeDocker:
-          title: Include Docker Configuration
-          type: boolean
-          description: Add Docker support for the MCP server
-          default: true
         includeTests:
           title: Include Test Files
           type: boolean
@@ -176,7 +171,6 @@ spec:
           tableName: ${{ parameters.tableName }}
           
           # Additional options
-          includeDocker: ${{ parameters.includeDocker }}
           includeTests: ${{ parameters.includeTests }}
           environmentVariables: ${{ parameters.environmentVariables }}
           
@@ -226,7 +220,6 @@ spec:
           - `${{ parameters.targetPath }}/requirements.txt` - Python dependencies
           
           ### 🚀 Deployment Options
-          {% if parameters.includeDocker %}- Docker support for containerized deployment{% endif %}
           - AWS Lambda deployment with Terraform (in mcp-server/terraform/)
           - Local development setup with uv package manager
           
