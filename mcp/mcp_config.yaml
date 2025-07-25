@@ -1,0 +1,75 @@
+# MCP Configuration for mcp-server
+# This configuration works with the production MCP server from bayer-int/mcp-servers
+
+# MCP Server Connection
+mcp_url: "http://localhost:8000/mcp"  # Local development
+# mcp_url: "https://your-lambda-url.amazonaws.com/mcp"  # AWS Lambda deployment
+
+# Authentication (for production deployment)
+# auth_token: "your-api-key-here"  # Uncomment and set for secure deployments
+
+# MCP Server Configuration
+mcp_server:
+  type: "postgres"
+  
+  default_schema: "public"
+  
+  
+  
+  # Security settings (matches MCP server defaults)
+  read_only: true
+  max_rows: 100
+  
+  # Connection timeout settings
+  timeout: 30
+  retry_attempts: 3
+
+# ML Service Integration Settings
+ml_service:
+  name: "mcp-server"
+  owner: "user:default/santosh5321"
+  
+  # Default tables for training data
+  training_tables:
+    
+    - "training_data"
+    - "features"
+    - "labels"
+    
+    
+  
+  # Feature validation
+  required_columns:
+    - "id"
+    - "created_at"
+    - "updated_at"
+
+# Logging and Monitoring
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  mcp_debug: false
+  
+monitoring:
+  health_check_interval: 300  # seconds
+  enable_metrics: true
+
+
+
+# Environment-specific overrides
+# Uncomment and modify for different environments
+
+# development:
+#   mcp_url: "http://localhost:8000/mcp"
+#   logging:
+#     level: "DEBUG"
+#     mcp_debug: true
+
+# staging:
+#   mcp_url: "https://staging-mcp.example.com/mcp"
+#   auth_token: "staging-token"
+
+# production:
+#   mcp_url: "https://prod-mcp.example.com/mcp"
+#   auth_token: "prod-token"
+#   monitoring:
+#     enable_metrics: true
