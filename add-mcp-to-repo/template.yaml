@@ -40,9 +40,6 @@ spec:
           type: string
           description: Select the type of MCP server to implement
           default: postgres
-          ui:field: CustomTagSelect
-          ui:options:
-            catalogName: mcp-catalog
           enum:
             - postgres
             - filesystem
@@ -90,6 +87,14 @@ spec:
             allowedKinds:
               - Group
               - User
+        tags:
+          title: Tags
+          type: array
+          description: Tags to categorize this MCP implementation
+          default: ['mcp']
+          items:
+            type: string
+          ui:field: EntityTagsPicker
         port:
           title: Server Port
           type: integer
