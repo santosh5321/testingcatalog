@@ -81,37 +81,6 @@ spec:
             allowedKinds:
               - Group
               - User
-        
-    - title: Database Configuration (for database-backed MCP types)
-      dependencies:
-        mcpType:
-          oneOf:
-            - properties:
-                mcpType:
-                  enum: ["postgres", "sqlite"]
-      properties:
-        databaseUrl:
-          title: Database URL
-          type: string
-          description: Database connection URL (optional - can be configured via environment variables)
-          ui:placeholder: 'postgresql://user:password@localhost:5432/dbname'
-          ui:help: 'Leave empty to use environment variable DATABASE_URL'
-        tableName:
-          title: Table Name
-          type: string
-          description: Primary table name for MCP operations
-          default: 'mcp_data'
-
-    - title: Additional Configuration
-      properties:
-        environmentVariables:
-          title: Environment Variables
-          type: object
-          description: Additional environment variables for MCP configuration
-          ui:widget: object
-          additionalProperties:
-            type: string
-          ui:help: 'Key-value pairs for environment configuration'
 
   steps:
     - id: fetch-mcp-source
@@ -137,7 +106,6 @@ spec:
           - **Server Type**: ${{ parameters.mcpType }} MCP Server
           - **Service Name**: ${{ parameters.serviceName }}
           - **Owner**: ${{ parameters.owner }}
-          {% if parameters.databaseUrl %}- **Database**: ${{ parameters.databaseUrl }}{% endif %}
           
           **What Was Added:**
           - `${{ parameters.targetPath }}/` - Complete MCP server implementation
