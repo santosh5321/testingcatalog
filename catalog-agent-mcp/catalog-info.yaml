@@ -1,0 +1,87 @@
+apiVersion: backstage.io/v1alpha1
+kind: Agent
+metadata:
+  name: advanced-a2a-mcp-agent
+  title: Advanced A2A MCP Agent
+  description: MCP agent with full A2A Protocol support and OAuth 2.0 authentication
+  labels:
+    environment: production
+    team: ai-platform
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+spec:
+  type: mcp
+  transportType: SSE
+  mcpUrl: https://advanced-mcp-agent.example.com/mcp
+  authentication:
+    type: OAUTH2
+    oauth2:
+      clientId: mcp-agent-client-id
+      redirectUri: https://my-app.example.com/auth/callback
+      scope: "read write admin"
+  timeout: 60000
+  retryPolicy:
+    maxRetries: 5
+    backoffMultiplier: 2
+  a2aCard:
+    protocolVersion: "0.3.0"
+    name: "Advanced MCP Data Agent"
+    description: "AI agent specialized in data analysis, visualization, and reporting with advanced streaming capabilities"
+    url: "https://advanced-mcp-agent.example.com/a2a"
+    preferredTransport: "JSONRPC"
+    version: "2.1.0"
+    iconUrl: "https://advanced-mcp-agent.example.com/icon.png"
+    documentationUrl: "https://docs.example.com/advanced-agent"
+    provider:
+      organization: "Example AI Corp"
+      url: "https://example-ai.com"
+    capabilities:
+      streaming: true
+      pushNotifications: true
+      stateTransitionHistory: true
+      extensions:
+        - uri: "https://example-ai.com/extensions/data-viz"
+          description: "Enhanced data visualization capabilities"
+          required: false
+    defaultInputModes:
+      - "application/json"
+      - "text/csv"
+      - "text/plain"
+      - "application/vnd.ms-excel"
+    defaultOutputModes:
+      - "application/json"
+      - "image/png"
+      - "image/svg+xml"
+      - "text/html"
+      - "application/pdf"
+    skills:
+      - id: "data-analysis"
+        name: "Advanced Data Analysis"
+        description: "Perform comprehensive statistical analysis on datasets including trend analysis, correlation studies, and predictive modeling"
+        tags: ["analytics", "statistics", "data-science", "machine-learning"]
+        examples:
+          - "Analyze this sales dataset for seasonal trends and provide insights"
+          - "Generate a correlation matrix for these variables and identify key relationships"
+          - "Create a predictive model for customer churn based on this historical data"
+        inputModes: ["text/csv", "application/json", "application/vnd.ms-excel"]
+        outputModes: ["application/json", "text/html", "image/png"]
+      - id: "data-visualization"
+        name: "Interactive Data Visualization"
+        description: "Create interactive charts, graphs, and dashboards from raw data"
+        tags: ["visualization", "charts", "dashboards", "reporting"]
+        examples:
+          - "Create an interactive dashboard showing KPI trends over time"
+          - "Generate a heatmap visualization for this geographic data"
+          - "Build a multi-panel chart showing sales performance by region and product"
+        inputModes: ["application/json", "text/csv"]
+        outputModes: ["text/html", "image/svg+xml", "application/json"]
+      - id: "report-generation"
+        name: "Automated Report Generation"
+        description: "Generate comprehensive reports with analysis, visualizations, and actionable insights"
+        tags: ["reporting", "automation", "insights", "business-intelligence"]
+        examples:
+          - "Generate a monthly performance report with charts and recommendations"
+          - "Create an executive summary of quarterly financial data"
+          - "Produce a detailed analysis report on customer behavior patterns"
+        inputModes: ["application/json", "text/csv", "text/plain"]
+        outputModes: ["application/pdf", "text/html", "application/json"]
