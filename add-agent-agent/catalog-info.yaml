@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Agent
+metadata:
+  name: sample-generic-agent
+  description: Example of a generic agent entity (type: agent)
+  tags:
+    - agent
+    - generic
+spec:
+  type: agent
+  owner: group:default/your-team
+  lifecycle: production
+  # Add any additional fields relevant to your agent here
