@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: santosh5321
+spec:
+  profile:
+    displayName: Santosh Kumar Karri
+    email: santoshkumar.karri.ext@bayer.com
+  memberOf: []
