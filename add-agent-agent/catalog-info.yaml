@@ -13,3 +13,4 @@ spec:
   a2aConnections:
     - targetAgent: agent-b
       connectionType: http
+      status: active
