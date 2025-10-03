@@ -8,8 +8,5 @@ metadata:
     - generic
 spec:
   type: agent
+  owner: group:default/your-team
   lifecycle: production
-  a2aConnections:
-    - targetAgent: agent-b
-      connectionType: http
-      status: active
