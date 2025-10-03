@@ -11,7 +11,6 @@ metadata:
     backstage.io/techdocs-ref: dir:.
 spec:
   type: mcp
-  transportType: SSE
   mcpUrl: https://advanced-mcp-agent.example.com/mcp
   authentication:
     type: OAUTH2
@@ -85,6 +84,7 @@ spec:
           - "Produce a detailed analysis report on customer behavior patterns"
         inputModes: ["application/json", "text/csv", "text/plain"]
         outputModes: ["application/pdf", "text/html", "application/json"]
+
 
 
 
