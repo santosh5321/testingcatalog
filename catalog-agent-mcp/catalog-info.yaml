@@ -85,3 +85,8 @@ spec:
           - "Produce a detailed analysis report on customer behavior patterns"
         inputModes: ["application/json", "text/csv", "text/plain"]
         outputModes: ["application/pdf", "text/html", "application/json"]
+
+
+
+
+
