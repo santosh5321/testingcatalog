@@ -11,6 +11,7 @@ metadata:
     backstage.io/techdocs-ref: dir:.
 spec:
   type: mcp
+  transportType: SSE
   mcpUrl: https://advanced-mcp-agent.example.com/mcp
   authentication:
     type: OAUTH2
