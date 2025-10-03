@@ -12,5 +12,4 @@ spec:
   lifecycle: production
   a2aConnections:
     - targetAgent: agent-b
-      connectionType: http
       
