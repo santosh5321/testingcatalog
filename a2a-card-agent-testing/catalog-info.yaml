@@ -1,0 +1,18 @@
+apiVersion: backstage.io/v1alpha1
+kind: Agent
+metadata:
+  name: a2a-agent
+spec:
+  type: agent
+  owner: user:default/your-user
+  lifecycle: production
+  a2aCard:
+    protocolVersion: "0.3.0"
+    name: "A2A Example"
+    description: "A valid A2A card"
+    url: "https://example.com/agent"
+    version: "1.0.0"
+    capabilities: {}
+    defaultInputModes: ["application/json"]
+    defaultOutputModes: ["application/json"]
+    skills: []
