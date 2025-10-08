@@ -5,6 +5,7 @@ metadata:
 spec:
   type: agent
   owner: user:default/your-user
+  description: "A valid A2A card"
   lifecycle: production
   a2aCard:
     protocolVersion: "0.3.0"
