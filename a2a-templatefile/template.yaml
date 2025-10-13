@@ -1,0 +1,104 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: create-agent
+  title: Create Agent or MCP Catalog YAML
+  description: Scaffold an Agent or MCP entity and raise a PR to a repo
+spec:
+  owner: user:default/your-user
+  type: service
+
+  parameters:
+    - title: Agent Type
+      required:
+        - agentType
+      properties:
+        agentType:
+          title: Agent Type
+          type: string
+          enum: [agent, mcp]
+          default: agent
+    - title: Common Agent Info
+      required:
+        - name
+        - owner
+        - repoUrl
+      properties:
+        name:
+          title: Name
+          type: string
+        owner:
+          title: Owner
+          type: string
+        repoUrl:
+          title: Target Repository (GitHub URL)
+          type: string
+        description:
+          title: Description
+          type: string
+        lifecycle:
+          title: Lifecycle
+          type: string
+          default: production
+    - title: Agent Card Fields
+      if: { properties: { agentType: { const: agent } } }
+      properties:
+        protocolVersion:
+          title: Protocol Version
+          type: string
+          default: "0.3.0"
+        url:
+          title: Agent URL
+          type: string
+        version:
+          title: Version
+          type: string
+        defaultInputModes:
+          title: Default Input Modes (comma separated)
+          type: string
+        defaultOutputModes:
+          title: Default Output Modes (comma separated)
+          type: string
+        skills:
+          title: Skills (JSON array)
+          type: string
+    - title: MCP Fields
+      if: { properties: { agentType: { const: mcp } } }
+      properties:
+        mcpUrl:
+          title: MCP URL
+          type: string
+        authentication:
+          title: Authentication Type
+          type: string
+          enum: [API_TOKEN, BEARER_TOKEN, OAUTH2]
+        transportType:
+          title: Transport Type
+          type: string
+          enum: [STDIO, SSE, HTTP]
+
+  steps:
+    - id: fetch-base
+      name: Fetch Base
+      action: fetch:template
+      input:
+        url: ./skeleton
+
+    - id: render-yaml
+      name: Render Agent YAML
+      action: template:files
+      input:
+        files:
+          - source: agent.yaml.njk
+            target: agent.yaml
+
+    - id: create-pr
+      name: Create PR in Target Repo
+      action: publish:github:pull-request
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        title: "Add Agent Catalog YAML"
+        description: "Automated PR to add agent.yaml"
+        branchName: "add-agent-${{ parameters.name }}"
+        files:
+          - path: agent.yaml
