@@ -97,8 +97,14 @@ spec:
       action: publish:github:pull-request
       input:
         repoUrl: ${{ parameters.repoUrl }}
-        title: "Add Agent Catalog YAML"
-        description: "Automated PR to add agent.yaml"
-        branchName: "add-agent-${{ parameters.name }}"
+        title: "Add Agent Catalog YAML for ${{ parameters.name }}"
+        description: "Automated PR to add agent.yaml for ${{ parameters.name }}"
+        branchName: "add-agent-${{ parameters.name | slugify }}"
+        targetPath: "."
         files:
-          - path: agent.yaml
+          - agent.yaml
+
+  output:
+    links:
+      - title: View PR
+        url: ${{ steps.create-pr.output.remoteUrl }}
