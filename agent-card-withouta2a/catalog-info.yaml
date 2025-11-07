@@ -2,8 +2,9 @@ apiVersion: backstage.io/v1alpha1
 kind: Agent
 metadata:
   name: a2a-withoutcard
+  namespace: default
 spec:
   type: agent
-  owner: user:default/your-user
+  owner: user:default/rpredd1
   description: "No A2A card"
   lifecycle: production
