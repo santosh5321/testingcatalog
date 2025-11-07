@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: Agent
+metadata:
+  name: a2a-agent
+spec:
+  type: agent
+  owner: user:default/your-user
+  description: "A valid A2A card"
+  lifecycle: production
