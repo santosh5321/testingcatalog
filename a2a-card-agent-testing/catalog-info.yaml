@@ -9,74 +9,74 @@ spec:
   lifecycle: production
   a2aCard:
     protocolVersion: "0.3.0"
-  name: "Sample A2A Agent"
-  description: "A sample agent demonstrating all a2a card fields"
-  url: "https://agent.example.com"
-  preferredTransport: "HTTP+JSON"
-  additionalInterfaces:
-    - url: "https://agent.example.com/jsonrpc"
-      transport: "JSONRPC"
-  iconUrl: "https://agent.example.com/icon.png"
-  provider:
-    organization: "ExampleOrg"
-    url: "https://example.org"
-  version: "1.0.0"
-  documentationUrl: "https://agent.example.com/docs"
-  capabilities:
-    streaming: true
-    pushNotifications: true
-    stateTransitionHistory: true
-    extensions:
-      - uri: "https://agent.example.com/ext1"
-        description: "Extension 1"
-        required: true
-        params:
-          param1: "value1"
-  securitySchemes:
-    apiKeyScheme:
-      type: apiKey
-      in: header
-      name: "X-API-KEY"
-      description: "API Key authentication"
-    oauth2Scheme:
-      type: oauth2
-      flows:
-        authorizationCode:
-          authorizationUrl: "https://auth.example.com/authorize"
-          tokenUrl: "https://auth.example.com/token"
-          scopes:
-            read: "Read access"
-            write: "Write access"
-      oauth2MetadataUrl: "https://auth.example.com/.well-known/openid-configuration"
-  security:
-    - apiKeyScheme: ["X-API-KEY"]
-    - oauth2Scheme: ["read", "write"]
-  defaultInputModes:
-    - "text"
-    - "json"
-  defaultOutputModes:
-    - "text"
-    - "json"
-  skills:
-    - id: "skill1"
-      name: "Skill One"
-      description: "Performs action one"
-      tags: ["action", "one"]
-      examples: ["example input 1", "example input 2"]
-      inputModes: ["text"]
-      outputModes: ["json"]
-      security:
-        - apiKeyScheme: ["X-API-KEY"]
-    - id: "skill2"
-      name: "Skill Two"
-      description: "Performs action two"
-      tags: ["action", "two"]
-      inputModes: ["json"]
-      outputModes: ["text"]
-  supportsAuthenticatedExtendedCard: true
-  signatures:
-    - protected: "header.payload"
-      signature: "abcdef123456"
-      header:
-        alg: "RS256"
-        typ: "JWT"
+    name: "Sample A2A Agent"
+    description: "A sample agent demonstrating all a2a card fields"
+    url: "https://agent.example.com"
+    preferredTransport: "HTTP+JSON"
+    additionalInterfaces:
+      - url: "https://agent.example.com/jsonrpc"
+        transport: "JSONRPC"
+    iconUrl: "https://agent.example.com/icon.png"
+    provider:
+      organization: "ExampleOrg"
+      url: "https://example.org"
+    version: "1.0.0"
+    documentationUrl: "https://agent.example.com/docs"
+    capabilities:
+      streaming: true
+      pushNotifications: true
+      stateTransitionHistory: true
+      extensions:
+        - uri: "https://agent.example.com/ext1"
+          description: "Extension 1"
+          required: true
+          params:
+            param1: "value1"
+    securitySchemes:
+      apiKeyScheme:
+        type: apiKey
+        in: header
+        name: "X-API-KEY"
+        description: "API Key authentication"
+      oauth2Scheme:
+        type: oauth2
+        flows:
+          authorizationCode:
+            authorizationUrl: "https://auth.example.com/authorize"
+            tokenUrl: "https://auth.example.com/token"
+            scopes:
+              read: "Read access"
+              write: "Write access"
+        oauth2MetadataUrl: "https://auth.example.com/.well-known/openid-configuration"
+    security:
+      - apiKeyScheme: ["X-API-KEY"]
+      - oauth2Scheme: ["read", "write"]
+    defaultInputModes:
+      - "text"
+      - "json"
+    defaultOutputModes:
+      - "text"
+      - "json"
+    skills:
+      - id: "skill1"
+        name: "Skill One"
+        description: "Performs action one"
+        tags: ["action", "one"]
+        examples: ["example input 1", "example input 2"]
+        inputModes: ["text"]
+        outputModes: ["json"]
+        security:
+          - apiKeyScheme: ["X-API-KEY"]
+      - id: "skill2"
+        name: "Skill Two"
+        description: "Performs action two"
+        tags: ["action", "two"]
+        inputModes: ["json"]
+        outputModes: ["text"]
+    supportsAuthenticatedExtendedCard: true
+    signatures:
+      - protected: "header.payload"
+        signature: "abcdef123456"
+        header:
+          alg: "RS256"
+          typ: "JWT"
